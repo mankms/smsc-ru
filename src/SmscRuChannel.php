@@ -61,7 +61,7 @@ class SmscRuChannel
 
     protected function sendMessage($recipients, SmscRuMessage $message)
     {
-        if (\mb_strlen($message->content) > 800) {
+        if (\mb_strlen($message->content) > 800 && !$message->isAnEmail) {
             throw CouldNotSendNotification::contentLengthLimitExceeded();
         }
 
@@ -70,6 +70,11 @@ class SmscRuChannel
             'mes'     => $message->content,
             'sender'  => $message->from,
         ];
+
+        if ($message->isAnEmail) {
+            $params['mail'] = 1;
+            $params['subj'] = $message->subject;
+        }
 
         if ($message->sendAt instanceof \DateTimeInterface) {
             $params['time'] = '0'.$message->sendAt->getTimestamp();

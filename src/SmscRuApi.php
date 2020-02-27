@@ -25,6 +25,9 @@ class SmscRuApi
     /** @var string */
     protected $sender;
 
+    /** @var string */
+    protected $sender_email;
+
     /** @var array */
     protected $extra;
 
@@ -33,6 +36,7 @@ class SmscRuApi
         $this->login = Arr::get($config, 'login');
         $this->secret = Arr::get($config, 'secret');
         $this->sender = Arr::get($config, 'sender');
+        $this->sender_email = Arr::get($config, 'sender_email');
         $this->endpoint = Arr::get($config, 'host', 'https://smsc.ru/').'sys/send.php';
 
         $this->extra = Arr::get($config, 'extra', []);
@@ -49,7 +53,7 @@ class SmscRuApi
             'charset' => 'utf-8',
             'login'   => $this->login,
             'psw'     => $this->secret,
-            'sender'  => $this->sender,
+            'sender'  => isset($params['mail']) && $params['mail'] ? $this->sender_email : $this->sender,
             'fmt'     => self::FORMAT_JSON,
         ];
 

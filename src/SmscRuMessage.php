@@ -12,6 +12,20 @@ class SmscRuMessage
     public $from = '';
 
     /**
+     * The message is an email if true.
+     *
+     * @var bool
+     */
+    public $isAnEmail = false;
+
+    /**
+     * The subject for the email message.
+     *
+     * @var string
+     */
+    public $subject = '';
+
+    /**
      * The message content.
      *
      * @var string
@@ -69,6 +83,32 @@ class SmscRuMessage
     public function from($from)
     {
         $this->from = $from;
+
+        return $this;
+    }
+
+    /**
+     * Marks the message as an email.
+     *
+     * @return $this
+     */
+    public function email()
+    {
+        $this->isAnEmail = true;
+
+        return $this;
+    }
+
+    /**
+     * Set the subject for the email message.
+     *
+     * @param  string  $subject
+     *
+     * @return $this
+     */
+    public function subject($subject)
+    {
+        $this->subject = $subject;
 
         return $this;
     }
